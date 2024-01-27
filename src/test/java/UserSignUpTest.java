@@ -1,3 +1,4 @@
+import clients.UserClient;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
@@ -7,20 +8,11 @@ import org.testng.annotations.Test;
 public class UserSignUpTest extends BaseAPITest {
     @Test
     public void successfulRegistration(){
-
-        //Arrange
-        String signupEndpointResource = "/api/auth/signup";
-
-        String email = "joseph@gmail.com";
+        String email = "joseph11@gmail.com";
         String password = "joseph@123";
 
-        String signupRequestBody = String.format("{\"email\":\"%s\", \"password\":\"%s\"}", email, password);
-
-        //Act
-        Response response = RestAssured.given()
-                .contentType(ContentType.JSON)
-                .body(signupRequestBody)
-                .post(signupEndpointResource);
+        UserClient userClient = new UserClient();
+        Response response = userClient.createUser(email, password);
 
         int statusCode = response.getStatusCode();
         String authenticatedEmail =  response.jsonPath().get("data.user.email");
