@@ -3,20 +3,23 @@ package clients;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import models.request.SignupRequestModel;
+import models.response.SignupResponseModel;
 
 public class UserClient {
-    public Response createUser(String email, String password){
+    public SignupResponseModel createUser(String email, String password){
 
         //Arrange
         String signupEndpointResource = "/api/auth/signup";
 
-        String signupRequestBody = String.format("{\"email\":\"%s\", \"password\":\"%s\"}", email, password);
+//        String signupRequestBody = String.format("{\"email\":\"%s\", \"password\":\"%s\"}", email, password);
+        SignupRequestModel signupRequestBody = SignupRequestModel.builder().email(email).password(password).build();
 
         //Act
-        Response signUpResponse = RestAssured.given()
+        SignupResponseModel signUpResponse = RestAssured.given()
                 .contentType(ContentType.JSON)
                 .body(signupRequestBody)
-                .post(signupEndpointResource);
+                .post(signupEndpointResource).as(SignupResponseModel.class);
 
         return signUpResponse;
     }
