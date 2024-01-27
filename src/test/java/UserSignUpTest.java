@@ -5,10 +5,12 @@ import io.restassured.response.Response;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.util.UUID;
+
 public class UserSignUpTest extends BaseAPITest {
     @Test
     public void successfulRegistration(){
-        String email = "joseph11@gmail.com";
+        String email = UUID.randomUUID().toString() + "@ultralesson.com"; // "joseph11@gmail.com";
         String password = "joseph@123";
 
         UserClient userClient = new UserClient();
